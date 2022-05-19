@@ -8,10 +8,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "codemirror": "^5.65.3",
+    "rehype-stringify": "^9.0.3",
+    "remark-parse": "^10.0.1",
+    "remark-rehype": "^10.1.0",
+    "unified": "^10.1.2",
     "vue": "^3.2.25"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",
+    "less": "^4.1.2",
     "vite": "^2.9.9"
   }
 }
