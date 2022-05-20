@@ -172,6 +172,13 @@ onMounted(() => {
 });
 </script>
 
+<style lang="less">
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+</style>
 <style lang="less" scoped>
 .container {
   position: fixed;
