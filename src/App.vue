@@ -1,7 +1,17 @@
 <template>
   <div class="container">
-    <div class="editorArea" ref="editorArea"></div>
-    <div class="previewArea" ref="previewArea" v-html="htmlStr"></div>
+    <div
+      class="editorArea"
+      ref="editorArea"
+      @mouseenter="currentScrollArea = 'editor'"
+    ></div>
+    <div
+      class="previewArea"
+      ref="previewArea"
+      v-html="htmlStr"
+      @scroll="onPreviewScroll"
+      @mouseenter="currentScrollArea = 'preview'"
+    ></div>
   </div>
 </template>
 
@@ -14,12 +24,15 @@ import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
+import'./themes/sspai.less'
+// import'./themes/markdown-nice.less'
 
 let editor = null;
 const editorArea = ref(null);
 const previewArea = ref(null);
 const htmlStr = ref("");
 let treeData = null;
+let currentScrollArea = ref("");
 // 获取语法树
 const customPlugin = () => (tree) => {
   // console.log(tree);
@@ -57,6 +70,9 @@ const computedPosition = () => {
 };
 // 编辑区域的滚动事件
 const onEditorScroll = () => {
+  if (currentScrollArea.value !== "editor") {
+    return;
+  }
   computedPosition();
   // 获取编辑器滚动信息
   let editorScrollInfo = editor.getScrollInfo();
@@ -89,6 +105,44 @@ const onEditorScroll = () => {
         (previewElementList[scrollElementIndex + 1] -
           previewElementList[scrollElementIndex]) +
       previewElementList[scrollElementIndex];
+  }
+};
+// 预览区域的滚动事件
+const onPreviewScroll = () => {
+  if (currentScrollArea.value !== "preview") {
+    return;
+  }
+  computedPosition();
+  let previewScrollTop = previewArea.value.scrollTop;
+  // 找出当前滚动到元素索引
+  let scrollElementIndex = null;
+  for (let i = 0; i < previewElementList.length; i++) {
+    if (previewScrollTop < previewElementList[i]) {
+      scrollElementIndex = i - 1;
+      break;
+    }
+  }
+  // 已经滚动到底部
+  if (
+    previewScrollTop >=
+    previewArea.value.scrollHeight - previewArea.value.clientHeight
+  ) {
+    let editorScrollInfo = editor.getScrollInfo();
+    editor.scrollTo(0, editorScrollInfo.height - editorScrollInfo.clientHeight);
+    return;
+  }
+  if (scrollElementIndex >= 0) {
+    // 设置预览区域的滚动距离为对应元素的offsetTop
+    let ratio =
+      (previewScrollTop - previewElementList[scrollElementIndex]) /
+      (previewElementList[scrollElementIndex + 1] -
+        previewElementList[scrollElementIndex]);
+    let editorScrollTop =
+      ratio *
+        (editorElementList[scrollElementIndex + 1] -
+          editorElementList[scrollElementIndex]) +
+      editorElementList[scrollElementIndex];
+    editor.scrollTo(0, editorScrollTop);
   }
 };
 const onChange = (instance) => {
