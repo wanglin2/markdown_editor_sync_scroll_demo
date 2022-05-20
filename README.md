@@ -1,1 +1,1 @@
-# 基于`CodeMirror`和`unified`实现的一个能精确同步滚动的`Markdown`编辑器
+基于`CodeMirror`和`unified`实现的一个能精确同步滚动的`Markdown`编辑器
