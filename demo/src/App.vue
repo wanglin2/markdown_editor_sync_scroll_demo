@@ -19,13 +19,15 @@
 import CodeMirror from "codemirror";
 import "codemirror/mode/markdown/markdown.js";
 import "codemirror/lib/codemirror.css";
-import { nextTick, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
-import'./themes/sspai.less'
-// import'./themes/markdown-nice.less'
+import rehypeHighlight from "rehype-highlight";
+import remarkGfm from 'remark-gfm';
+import "highlight.js/styles/agate.css";
+import "./themes/sspai.less";
 
 let editor = null;
 const editorArea = ref(null);
@@ -35,19 +37,12 @@ let treeData = null;
 let currentScrollArea = ref("");
 // 获取语法树
 const customPlugin = () => (tree) => {
-  // console.log(tree);
   treeData = tree;
 };
 // 计算位置信息
 let editorElementList = [];
 let previewElementList = [];
 const computedPosition = () => {
-  // console.log(treeData, treeData.children.length);
-  // console.log(
-  //   previewArea.value.childNodes,
-  //   previewArea.value.childNodes.length
-  // );
-  console.log("---------------");
   let previewChildNodes = previewArea.value.childNodes;
   // 清空数组
   editorElementList = [];
@@ -58,11 +53,6 @@ const computedPosition = () => {
       return;
     }
     let offsetTop = editor.heightAtLine(child.position.start.line - 1, "local"); // 设为local返回的坐标是相对于编辑器本身的，其他还有两个可选项：window、page
-    // console.log(
-    //   child.children[0].value,
-    //   offsetTop,
-    //   previewChildNodes[index].offsetTop
-    // );
     // 保存元素的位置信息
     editorElementList.push(offsetTop);
     previewElementList.push(previewChildNodes[index].offsetTop); // 预览区域的容器元素previewArea需要设置定位
@@ -148,7 +138,9 @@ const onPreviewScroll = () => {
 const onChange = (instance) => {
   unified()
     .use(remarkParse) // 将markdown转换成语法树
+    .use(remarkGfm)// 支持GFM (tables, autolinks, tasklists, strikethrough)
     .use(remarkRehype) // 将markdown语法树转换成html语法树，转换之后就可以使用rehype相关的插件
+    .use(rehypeHighlight)// 代码块高亮
     .use(customPlugin)
     .use(rehypeStringify) // 将html语法树转换成html字符串
     .process(instance.doc.getValue())
