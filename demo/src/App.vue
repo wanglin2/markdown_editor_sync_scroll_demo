@@ -185,6 +185,7 @@ onMounted(() => {
     width: 50%;
     height: 100%;
     border-right: 1px solid #e1e4e8;
+    flex-shrink: 0;
 
     /deep/ .CodeMirror {
       height: 100%;
@@ -201,6 +202,7 @@ onMounted(() => {
     height: 100%;
     padding: 20px;
     overflow: auto;
+    flex-shrink: 0;
   }
 }
 </style>
