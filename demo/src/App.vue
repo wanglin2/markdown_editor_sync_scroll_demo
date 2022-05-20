@@ -42,7 +42,11 @@ import python from "highlight.js/lib/languages/python";
 import scss from "highlight.js/lib/languages/scss";
 import sql from "highlight.js/lib/languages/sql";
 import typescript from "highlight.js/lib/languages/typescript";
-import 'highlight.js'
+import c from "highlight.js/lib/languages/c";
+import diff from "highlight.js/lib/languages/diff";
+import shell from "highlight.js/lib/languages/shell";
+import rust from "highlight.js/lib/languages/rust";
+import swift from "highlight.js/lib/languages/swift";
 
 let editor = null;
 const editorArea = ref(null);
@@ -157,22 +161,27 @@ const onChange = (instance) => {
     .use(remarkRehype) // 将markdown语法树转换成html语法树，转换之后就可以使用rehype相关的插件
     .use(rehypeHighlight, {
       ignoreMissing: true,
-      // languages: {
-      //   xml,
-      //   bash,
-      //   css,
-      //   markdown,
-      //   java,
-      //   javascript,
-      //   json,
-      //   less,
-      //   php,
-      //   plaintext,
-      //   python,
-      //   scss,
-      //   sql,
-      //   typescript,
-      // },
+      languages: {
+        xml,
+        bash,
+        css,
+        markdown,
+        java,
+        javascript,
+        json,
+        less,
+        php,
+        plaintext,
+        python,
+        scss,
+        sql,
+        typescript,
+        c,
+        diff,
+        shell,
+        rust,
+        swift
+      },
     }) // 代码块高亮
     .use(customPlugin)
     .use(rehypeStringify) // 将html语法树转换成html字符串
