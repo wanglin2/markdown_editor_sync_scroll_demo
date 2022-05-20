@@ -25,9 +25,23 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
 import rehypeHighlight from "rehype-highlight";
-import remarkGfm from 'remark-gfm';
+import remarkGfm from "remark-gfm";
 import "highlight.js/styles/agate.css";
 import "./themes/sspai.less";
+import xml from "highlight.js/lib/languages/xml";
+import bash from "highlight.js/lib/languages/bash";
+import css from "highlight.js/lib/languages/css";
+import markdown from "highlight.js/lib/languages/markdown";
+import java from "highlight.js/lib/languages/java";
+import javascript from "highlight.js/lib/languages/javascript";
+import json from "highlight.js/lib/languages/json";
+import less from "highlight.js/lib/languages/less";
+import php from "highlight.js/lib/languages/php";
+import plaintext from "highlight.js/lib/languages/plaintext";
+import python from "highlight.js/lib/languages/python";
+import scss from "highlight.js/lib/languages/scss";
+import sql from "highlight.js/lib/languages/sql";
+import typescript from "highlight.js/lib/languages/typescript";
 
 let editor = null;
 const editorArea = ref(null);
@@ -138,9 +152,27 @@ const onPreviewScroll = () => {
 const onChange = (instance) => {
   unified()
     .use(remarkParse) // 将markdown转换成语法树
-    .use(remarkGfm)// 支持GFM (tables, autolinks, tasklists, strikethrough)
+    .use(remarkGfm) // 支持GFM (tables, autolinks, tasklists, strikethrough)
     .use(remarkRehype) // 将markdown语法树转换成html语法树，转换之后就可以使用rehype相关的插件
-    .use(rehypeHighlight)// 代码块高亮
+    .use(rehypeHighlight, {
+      ignoreMissing: true,
+      languages: {
+        xml,
+        bash,
+        css,
+        markdown,
+        java,
+        javascript,
+        json,
+        less,
+        php,
+        plaintext,
+        python,
+        scss,
+        sql,
+        typescript,
+      },
+    }) // 代码块高亮
     .use(customPlugin)
     .use(rehypeStringify) // 将html语法树转换成html字符串
     .process(instance.doc.getValue())
