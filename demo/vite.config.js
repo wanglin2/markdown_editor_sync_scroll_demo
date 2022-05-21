@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [vue()],
   base: '/markdown_editor_sync_scroll_demo/',
   build: {
-    outDir: '../'
+    outDir: '../',
+    sourcemap: true
   }
 })
