@@ -24,7 +24,9 @@ import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
-import rehypeHighlight from "rehype-highlight";
+// rehype-highlight原仓库的代码中执行toText函数时未传第二个参数，本地开发正常，打包后线上访问报错，所以复制了其代码进行了修改
+// import rehypeHighlight from "rehype-highlight";
+import rehypeHighlight from "./lib/rehype-highlight";
 import remarkGfm from "remark-gfm";
 import "highlight.js/styles/agate.css";
 import "./themes/sspai.less";
@@ -198,14 +200,14 @@ const onChange = () => {
 };
 onMounted(() => {
   editor = CodeMirror(editorArea.value, {
-    // value: article,
+    value: article,
     mode: "markdown",
     lineNumbers: true,
     lineWrapping: true,
   });
   editor.on("change", onChange);
   editor.on("scroll", onEditorScroll);
-  // onChange();
+  onChange();
 });
 </script>
 

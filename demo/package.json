@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -15,7 +15,10 @@
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
     "unified": "^10.1.2",
-    "vue": "^3.2.25"
+    "vue": "^3.2.25",
+    "hast-util-to-text": "^3.0.0",
+    "lowlight": "^2.0.0",
+    "unist-util-visit": "^4.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",
