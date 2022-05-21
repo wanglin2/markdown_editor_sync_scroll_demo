@@ -154,7 +154,7 @@ const onPreviewScroll = () => {
     editor.scrollTo(0, editorScrollTop);
   }
 };
-const onChange = (instance) => {
+const onChange = () => {
   unified()
     .use(remarkParse) // 将markdown转换成语法树
     .use(remarkGfm) // 支持GFM (tables, autolinks, tasklists, strikethrough)
@@ -185,7 +185,7 @@ const onChange = (instance) => {
     }) // 代码块高亮
     .use(customPlugin)
     .use(rehypeStringify) // 将html语法树转换成html字符串
-    .process(instance.doc.getValue())
+    .process(editor.getValue())
     .then(
       (file) => {
         htmlStr.value = String(file);
@@ -195,14 +195,18 @@ const onChange = (instance) => {
       }
     );
 };
-onMounted(() => {
+onMounted(async () => {
+  let res = await fetch('/article.md');
+  let text = await res.text();
   editor = CodeMirror(editorArea.value, {
+    value: text,
     mode: "markdown",
     lineNumbers: true,
     lineWrapping: true,
   });
   editor.on("change", onChange);
   editor.on("scroll", onEditorScroll);
+  onChange();
 });
 </script>
 
