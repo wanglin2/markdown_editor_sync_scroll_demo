@@ -47,6 +47,7 @@ import diff from "highlight.js/lib/languages/diff";
 import shell from "highlight.js/lib/languages/shell";
 import rust from "highlight.js/lib/languages/rust";
 import swift from "highlight.js/lib/languages/swift";
+import article from './article.md?raw';
 
 let editor = null;
 const editorArea = ref(null);
@@ -195,11 +196,9 @@ const onChange = () => {
       }
     );
 };
-onMounted(async () => {
-  let res = await fetch('./article.md');
-  let text = await res.text();
+onMounted(() => {
   editor = CodeMirror(editorArea.value, {
-    value: text,
+    value: article,
     mode: "markdown",
     lineNumbers: true,
     lineWrapping: true,
