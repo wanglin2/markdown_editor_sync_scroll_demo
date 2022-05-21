@@ -196,7 +196,7 @@ const onChange = () => {
     );
 };
 onMounted(async () => {
-  let res = await fetch('/article.md');
+  let res = await fetch('./article.md');
   let text = await res.text();
   editor = CodeMirror(editorArea.value, {
     value: text,
