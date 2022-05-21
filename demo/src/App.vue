@@ -160,30 +160,30 @@ const onChange = () => {
     .use(remarkParse) // 将markdown转换成语法树
     .use(remarkGfm) // 支持GFM (tables, autolinks, tasklists, strikethrough)
     .use(remarkRehype) // 将markdown语法树转换成html语法树，转换之后就可以使用rehype相关的插件
-    .use(rehypeHighlight, {
-      ignoreMissing: true,
-      languages: {
-        xml,
-        bash,
-        css,
-        markdown,
-        java,
-        javascript,
-        json,
-        less,
-        php,
-        plaintext,
-        python,
-        scss,
-        sql,
-        typescript,
-        c,
-        diff,
-        shell,
-        rust,
-        swift
-      },
-    }) // 代码块高亮
+    // .use(rehypeHighlight, {
+    //   ignoreMissing: true,
+    //   languages: {
+    //     xml,
+    //     bash,
+    //     css,
+    //     markdown,
+    //     java,
+    //     javascript,
+    //     json,
+    //     less,
+    //     php,
+    //     plaintext,
+    //     python,
+    //     scss,
+    //     sql,
+    //     typescript,
+    //     c,
+    //     diff,
+    //     shell,
+    //     rust,
+    //     swift
+    //   },
+    // }) // 代码块高亮
     .use(customPlugin)
     .use(rehypeStringify) // 将html语法树转换成html字符串
     .process(editor.getValue())
